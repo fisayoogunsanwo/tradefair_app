@@ -94,24 +94,21 @@ class _ConverterPageState extends State<ConverterPage> {
                                   CircleAvatar(
                                     radius: kBaseFontSize * 0.4,
                                     backgroundImage: AssetImage(
-                                        "assets/flags/${baseCurrency}.png"),
+                                        "assets/flags/$baseCurrency.png"),
                                   ),
                                   // Space between
                                   SizedBox(
                                     width: kBaseFontSize * 0.05,
                                   ),
-                                  // need dynamic input here, and naming of first and second country
 
                                   CustomDropdown(
                                     currencyList: baseCurrenciesList,
                                     value: baseCurrency,
                                     onChange: (val) async {
+                                      getRatesList();
                                       rate = await exchange.getRates(
                                           baseCurrency, exchangeCurrency);
                                       baseCurrency = val;
-                                      // print(val);
-                                      // print('Rate: ${rate}');
-                                      // print('Base Currency: ' + baseCurrency);
                                     },
                                   ),
                                 ],
@@ -131,17 +128,14 @@ class _ConverterPageState extends State<ConverterPage> {
                                   decoration: kTextFieldInputDecoration,
                                   // What happens when number is changed
                                   onChanged: (fromAmount) {
-                                    // print("The number in text field is " + fromAmount);
                                     setState(() {
                                       try {
                                         _result.text =
                                             (rate * double.parse(fromAmount))
                                                 .toStringAsFixed(2);
-                                      } catch (e) {
-                                        // print('Set State Error: $e');
-                                      }
+                                        // ignore: empty_catches
+                                      } catch (e) {}
                                     });
-                                    // print('The result: ${_result.text}');
                                   },
                                 ),
                               )
@@ -202,7 +196,7 @@ class _ConverterPageState extends State<ConverterPage> {
                                   CircleAvatar(
                                     radius: kBaseFontSize * 0.4,
                                     backgroundImage: AssetImage(
-                                        "assets/flags/${exchangeCurrency}.png"),
+                                        "assets/flags/$exchangeCurrency.png"),
                                   ),
                                   // Space between
                                   SizedBox(
@@ -213,20 +207,18 @@ class _ConverterPageState extends State<ConverterPage> {
                                     currencyList: exchangeCurrenciesList,
                                     value: exchangeCurrency,
                                     onChange: (val) async {
+                                      getRatesList();
                                       exchangeCurrency = val;
                                       rate = await exchange.getRates(
                                           baseCurrency, exchangeCurrency);
-                                      // print(rate);
-                                      // print('Exchange Currency: ' + exchangeCurrency);
                                       setState(() {
                                         try {
                                           _result.text = (rate *
                                                   double.parse(
                                                       _fromAmount.text))
                                               .toStringAsFixed(2);
-                                        } catch (e) {
-                                          // print('Set State Error: $e');
-                                        }
+                                          // ignore: empty_catches
+                                        } catch (e) {}
                                       });
                                     },
                                   ),
@@ -246,18 +238,14 @@ class _ConverterPageState extends State<ConverterPage> {
                                   textAlign: TextAlign.right,
                                   decoration: kTextFieldInputDecoration,
                                   onChanged: (result) {
-                                    // print("The number in result field is " + result);
                                     setState(() {
                                       try {
                                         _fromAmount.text =
                                             (double.parse(result) / rate)
                                                 .toStringAsFixed(2);
-                                      } catch (e) {
-                                        // print('Set State Error: $e');
-                                      }
+                                        // ignore: empty_catches
+                                      } catch (e) {}
                                     });
-
-                                    // print('The result: ${_fromAmount.text}');
                                   },
                                 ),
                               )
@@ -275,8 +263,7 @@ class _ConverterPageState extends State<ConverterPage> {
                   decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
                     color: kExchangeRateColor,
-                    borderRadius: BorderRadius.circular(
-                        kBaseFontSize), // gradient: Gradient(colors: [Colors.black, Colors.white,Colors.green]),
+                    borderRadius: BorderRadius.circular(kBaseFontSize),
                   ),
                   child: Column(
                     children: [
@@ -295,22 +282,6 @@ class _ConverterPageState extends State<ConverterPage> {
           ),
         ),
       ),
-      // bottomNavigationBar: BottomAppBar(
-      //   color: kPriColor,
-      //   padding: EdgeInsets.all(kBaseFontSize * 0.15),
-      //   child: FloatingActionButton(
-      //     onPressed: () {},
-      //     backgroundColor: kSecColor,
-      //     child: IconButton(
-      //       tooltip: 'Dark Mode',
-      //       icon: bottomIcon,
-      //       onPressed: () {
-      //         setState(() { bottomIcon = Icon(Icons.dark_mode_outlined);
-      //         });
-      //       },
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

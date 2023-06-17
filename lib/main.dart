@@ -15,9 +15,6 @@ class TradefairApp extends StatelessWidget {
       theme: ThemeData.light().copyWith(
         appBarTheme: const AppBarTheme(backgroundColor: kPriColor),
         primaryColor: kAccColor,
-        
-        
-        // scaffoldBackgroundColor: Colors.blueGrey
       ),
       home: const ConverterPage(),
     );
